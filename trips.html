@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PackPal • Trips</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <span class="brand">PackPal</span>
+            <nav class="side-nav">
+                <a href="dashboard.html"><span class="label">Dashboard</span></a>
+                <a href="checklist.html"><span class="label">Checklist</span></a>
+                <a href="trips.html" class="active"><span class="label">Trips</span></a>
+                <a href="members.html" data-requires-role="admin"><span class="label">Members</span></a>
+            </nav>
+        </aside>
+        <main class="container-fluid">
+        <header class="content-header">
+            <div class="content-header-inner">
+                <button class="menu-toggle" aria-label="Toggle menu">
+                    <span class="hamburger"></span>
+                </button>
+                <div class="header-right">
+                    <button id="theme-toggle" class="btn ghost" title="Toggle theme">
+                      <span id="theme-icon">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"></path></svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                      </span>
+                    </button>
+                    <span id="role-badge" class="chip">role</span>
+                    <button id="btn-logout" class="btn ghost">Logout</button>
+                </div>
+            </div>
+        </header>
+        <section class="card">
+            <div class="section-header">
+                <div>
+                    <h2>Trips & Groups</h2>
+                    <div class="card-subtitle">Plan destinations, organize groups, and manage members</div>
+                </div>
+                <div class="actions">
+                    <button id="btn-add-trip" class="btn primary" data-requires-role="member">New Trip</button>
+                    <button id="btn-add-group" class="btn ghost" data-requires-role="admin">New Group</button>
+                    <button id="btn-add-member" class="btn ghost" data-requires-role="admin">Add Member</button>
+                </div>
+            </div>
+            <div class="row" style="justify-content:flex-end; gap:10px;">
+                <label for="select-trip" class="muted">Trip</label>
+                <select id="select-trip"></select>
+            </div>
+        </section>
+
+        <section class="grid two-cols">
+            <div class="card">
+                <h2>Groups</h2>
+                <div class="divider"></div>
+                <ul id="groups-list" class="list"></ul>
+            </div>
+            <div class="card">
+                <h2>Members</h2>
+                <div class="divider"></div>
+                <ul id="members-list" class="list"></ul>
+            </div>
+        </section>
+        </main>
+    </div>
+
+    <!-- Modal: Add Trip -->
+<div id="modal-trip" class="modal hidden" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-window">
+    <h2>Add New Trip</h2>
+    <label>Destination
+      <input id="modal-trip-destination" type="text" placeholder="Enter destination" />
+    </label>
+    <div style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end;">
+      <button id="modal-trip-cancel" class="btn ghost">Cancel</button>
+      <button id="modal-trip-save" class="btn primary">Add Trip</button>
+    </div>
+  </div>
+</div>
+<!-- Modal: Add Group -->
+<div id="modal-group" class="modal hidden" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-window">
+    <h2>Add New Group</h2>
+    <label>Group Name
+      <input id="modal-group-name" type="text" placeholder="Enter group name" />
+    </label>
+    <div style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end;">
+      <button id="modal-group-cancel" class="btn ghost">Cancel</button>
+      <button id="modal-group-save" class="btn primary">Add Group</button>
+    </div>
+  </div>
+</div>
+<!-- Modal: Add Member -->
+<div id="modal-member" class="modal hidden" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-window">
+    <h2>Add New Member</h2>
+    <label>Name
+      <input id="modal-member-name" type="text" placeholder="Enter member name" />
+    </label>
+    <label>Contact
+      <input id="modal-member-contact" type="text" placeholder="Enter contact info" />
+    </label>
+    <div style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end;">
+      <button id="modal-member-cancel" class="btn ghost">Cancel</button>
+      <button id="modal-member-save" class="btn primary">Add Member</button>
+    </div>
+  </div>
+</div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-database-compat.js"></script>
+    <script src="assets/js/firebase.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/roles.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/trips.js"></script>
+    <script>PackPal.ui.initSidebar();</script>
+</body>
+</html>
+

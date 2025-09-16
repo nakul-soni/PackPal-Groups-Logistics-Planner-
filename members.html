@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PackPal • Members</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <span class="brand">PackPal</span>
+            <nav class="side-nav">
+                <a href="dashboard.html"><span class="label">Dashboard</span></a>
+                <a href="checklist.html"><span class="label">Checklist</span></a>
+                <a href="trips.html"><span class="label">Trips</span></a>
+                <a href="members.html" data-requires-role="admin" class="active"><span class="label">Members</span></a>
+            </nav>
+        </aside>
+        <main class="container-fluid">
+        <header class="content-header">
+            <div class="content-header-inner">
+                <button class="menu-toggle" aria-label="Toggle menu">
+                    <span class="hamburger"></span>
+                </button>
+                <div class="header-right">
+                    <button id="theme-toggle" class="btn ghost" title="Toggle theme">
+                      <span id="theme-icon">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"></path></svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                      </span>
+                    </button>
+                    <span id="role-badge" class="chip">role</span>
+                    <button id="btn-logout" class="btn ghost">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="card">
+            <div class="section-header">
+                <div>
+                    <h2>Members</h2>
+                    <div class="card-subtitle">Manage all members (admin & owner only)</div>
+                </div>
+                <div class="actions">
+                    <button id="btn-refresh-members" class="btn ghost">Refresh</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="grid" id="members-grid" style="grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap:16px;">
+                <!-- Member cards will be injected here -->
+            </div>
+
+            <template id="member-card-template">
+                <div class="member-card">
+                    <div class="member-top row" style="justify-content:space-between;align-items:center;">
+                        <div>
+                            <div class="member-name">Name</div>
+                            <div class="muted small member-contact">contact</div>
+                        </div>
+                        <div class="avatar">👤</div>
+                    </div>
+                    <div class="divider" style="margin:12px 0;"></div>
+                    <div class="muted small member-where">Trip / Group</div>
+                    <div style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+                        <button class="btn btn-small btn-edit-member">Edit</button>
+                        <button class="btn btn-small danger btn-remove-member">Remove</button>
+                    </div>
+                </div>
+            </template>
+        </section>
+
+        <!-- Modal: Edit Member -->
+        <div id="modal-member" class="modal hidden" aria-hidden="true">
+            <div class="modal-backdrop"></div>
+            <div class="modal-window">
+                <h3>Edit Member</h3>
+                <div class="grid" style="gap:10px;">
+                    <label>Name<input id="modal-member-name" type="text" /></label>
+                    <label>Contact<input id="modal-member-contact" type="text" /></label>
+                </div>
+                <div class="row" style="justify-content:flex-end;margin-top:12px;">
+                    <button class="btn ghost" id="modal-member-cancel">Cancel</button>
+                    <button class="btn primary" id="modal-member-save">Save</button>
+                </div>
+            </div>
+        </div>
+
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-database-compat.js"></script>
+    <script src="assets/js/firebase.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/roles.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/members.js"></script>
+    <script>PackPal.ui.initSidebar();</script>
+</body>
+</html>

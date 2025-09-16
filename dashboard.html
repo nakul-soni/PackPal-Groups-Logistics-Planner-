@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PackPal • Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <span class="brand">PackPal</span>
+            <nav class="side-nav">
+                <a href="dashboard.html" class="active"><span class="label">Dashboard</span></a>
+                <a href="checklist.html"><span class="label">Checklist</span></a>
+                <a href="trips.html"><span class="label">Trips</span></a>
+                <a href="members.html" data-requires-role="admin"><span class="label">Members</span></a>
+            </nav>
+        </aside>
+        <main class="container-fluid">
+        <header class="content-header">
+            <div class="content-header-inner">
+                <button class="menu-toggle" aria-label="Toggle menu">
+                    <span class="hamburger"></span>
+                </button>
+                <div class="header-right">
+                    <button id="theme-toggle" class="btn ghost" title="Toggle theme">
+                      <span id="theme-icon">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"></path></svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                      </span>
+                    </button>
+                    <span id="role-badge" class="chip">role</span>
+                    <button id="btn-logout" class="btn ghost">Logout</button>
+                </div>
+            </div>
+        </header>
+        <section class="grid stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Items</div>
+                <div id="stat-total-items" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Packed Items</div>
+                <div id="stat-packed-items" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Members</div>
+                <div id="stat-total-members" class="stat-value">0</div>
+            </div>
+        </section>
+
+        <section class="dashboard-sections" style="margin-top:16px;">
+            <div class="card progress-card">
+                <div class="circle-wrap">
+                    <svg class="circle" width="200" height="200" viewBox="0 0 200 200">
+                        <defs>
+                            <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#22c55e"/>
+                                <stop offset="100%" stop-color="#16a34a"/>
+                            </linearGradient>
+                        </defs>
+                        <circle class="track" cx="100" cy="100" r="90" fill="none" stroke-width="18" />
+                        <circle id="progress-indicator" class="indicator" cx="100" cy="100" r="90" fill="none" stroke-width="18" stroke-linecap="round" stroke-dasharray="565.48" stroke-dashoffset="565.48" />
+                    </svg>
+                    <div class="circle-center">
+                        <div id="progress-percent" class="percent">0%</div>
+                        <div class="note">packed</div>
+                    </div>
+                </div>
+                <div>
+                    <h2>Packing Progress</h2>
+                    <p class="card-subtitle">Overview of packed vs total items</p>
+                    <div class="divider"></div>
+                    <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <div class="muted small">Total Items</div>
+                            <div id="stat-total-items-progress" class="stat-value">0</div>
+                        </div>
+                        <div>
+                            <div class="muted small">Packed</div>
+                            <div id="stat-packed-items-progress" class="stat-value">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Recent Activity</h2>
+                <div class="divider"></div>
+                <ul id="activity-feed" class="activity-feed"></ul>
+            </div>
+        </section>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-database-compat.js"></script>
+    <script src="assets/js/firebase.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/roles.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <script>PackPal.ui.initSidebar();</script>
+</body>
+</html>
+

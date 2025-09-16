@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PackPal • Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body class="login-page" style="background: linear-gradient(135deg, #6c92e4 0%, #1e3a8a 100%);">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="login-container">
+        <div class="login-card">
+                        <!-- Theme toggle button removed -->
+            <h1>PackPal</h1>
+            <p class="subtitle">Plan trips. Pack smart. Together.</p>
+            <div id="login-error" class="alert hidden"></div>
+            <div class="grid" style="gap:10px;">
+                <label class="muted" for="role-select">Choose Role</label>
+                <select id="role-select">
+                    <option value="viewer">Viewer</option>
+                    <option value="member">Member</option>
+                    <option value="admin">Admin</option>
+                    <option value="owner">Owner</option>
+                </select>
+                <input id="role-passcode" type="password" placeholder="Enter passcode (if required)" />
+                <button id="btn-anon" class="btn primary">Continue</button>
+            </div>
+            <div class="muted small" style="margin-top:8px;">Owner: owner123 • Admin: admin123 • Member: member123</div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-database-compat.js"></script>
+    
+    <script src="assets/js/firebase.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/roles.js"></script>
+    <script>
+        (function(){
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            let w, h, t = 0;
+            const DPR = Math.min(window.devicePixelRatio || 1, 2);
+            function resize(){
+                w = canvas.width = window.innerWidth * DPR;
+                h = canvas.height = window.innerHeight * DPR;
+                canvas.style.width = window.innerWidth + 'px';
+                canvas.style.height = window.innerHeight + 'px';
+            }
+            window.addEventListener('resize', resize);
+            resize();
+            function draw(){
+                t += 0.005;
+                ctx.clearRect(0,0,w,h);
+                const cols = 20, rows = 12;
+                const cw = w/cols, rh = h/rows;
+                for(let i=0;i<cols;i++){
+                    for(let j=0;j<rows;j++){
+                        const x = (i+0.5)*cw;
+                        const y = (j+0.5)*rh;
+                        const n = Math.sin(t + i*0.3) * Math.cos(t*1.3 + j*0.25);
+                        const size = (Math.abs(n)*0.7+0.2) * Math.min(cw,rh)*0.6;
+                        const hue = 220 + n*60; // More vibrant blue/purple range
+                        ctx.fillStyle = `hsla(${hue},80%,${65+ n*15}%,0.7)`;
+                        ctx.beginPath();
+                        ctx.roundRect(x-size/2,y-size/2,size,size, size*0.25);
+                        ctx.fill();
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+            requestAnimationFrame(draw);
+        })();
+
+        document.getElementById('btn-anon').addEventListener('click', async () => {
+            const alertBox = document.getElementById('login-error');
+            alertBox.classList.add('hidden');
+            try {
+                const role = document.getElementById('role-select').value;
+                const pass = document.getElementById('role-passcode').value.trim();
+                const required = { owner: 'owner123', admin: 'admin123', member: 'member123' };
+                if (role !== 'viewer'){
+                    if (!pass || pass !== required[role]){
+                        throw new Error('Invalid passcode for selected role');
+                    }
+                }
+                const { user } = await PackPalAuth.signInAnonymouslyWithChosenRole(role);
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                alertBox.textContent = err.message || 'Login failed';
+                alertBox.classList.remove('hidden');
+            }
+        });
+
+        // Theme toggle removed
+    </script>
+</body>
+</html>
+
